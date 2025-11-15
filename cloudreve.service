@@ -1,0 +1,40 @@
+# sudo vim /etc/systemd/system/cloudreve.service
+
+# sudo systemctl daemon-reload
+# sudo systemctl enable cloudreve
+# sudo systemctl start cloudreve
+# # 停止 Cloudreve
+# sudo systemctl stop cloudreve
+# # 启动 Cloudreve
+# sudo systemctl start cloudreve
+# # 重启 Cloudreve
+# sudo systemctl restart cloudreve
+# # 查看 Cloudreve 状态
+# sudo systemctl status cloudreve
+
+[Unit]
+
+Description=Cloudreve
+Documentation=https://docs.cloudreve.org
+After=network.target
+After=mysqld.service
+Wants=network.target
+
+[Service]
+User=web
+Group=web
+WorkingDirectory=/home/web/code/cloudreve
+ExecStart=/home/web/code/cloudreve/cloudreve -c /home/web/code/cloudreve/data/conf.ini
+Restart=on-abnormal
+RestartSec=5s
+KillMode=mixed
+
+# Pro 版本授权密钥
+#Environment="CR_LICENSE_KEY=你的授权密钥"
+
+# 日志输出
+StandardOutput=/var/log/cloudreve.log
+StandardError=syslog
+
+[Install]
+WantedBy=multi-user.target

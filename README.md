@@ -74,3 +74,18 @@ If you're interested in contributing to Cloudreve, please refer to [Contributing
 ## :scroll: License
 
 GPL V3
+
+
+```bash
+
+export VERSION=$(git describe --tags)
+./.build/build-assets.sh "$VERSION"
+
+
+export COMMIT_SHA=$(git rev-parse --short HEAD)
+export VERSION=$(git describe --tags)
+
+go build -a -o cloudreve \
+    -ldflags "-s -w -X 'github.com/cloudreve/Cloudreve/v4/application/constants.BackendVersion=$VERSION' -X 'github.com/cloudreve/Cloudreve/v4/application/constants.LastCommit=$COMMIT_SHA'"
+
+```
